@@ -5,24 +5,18 @@ Robomo is an application created by PatientsLikeMe used to track incoming produc
 
 Environment
 -----------
-Postgres, ruby 1.9.3, rails 3.1.3
+Robomo runs on Ruby on Rails 1.9.3, and is database-agnostic.  (We've tested it with Postgres and SQLite 3, but it should also work with other adapters.)
 
 Test data
 ---------
-There is a rake task to create some test data.
+There is a rake task to create some test data.  To run it, do:
+
+    bundle exec rake test_data:bootstrap
 
 Logging in
 ----------
-You can use a gmail account to authenticate.
+In development and test modes, you can use a gmail account to authenticate.  Stage and production are set up by default to require a patientslikeme.com Google Apps account; to change this, alter the `config.google_auth_domain` setting in production.rb and stage.rb.
 
-TODO
-----
-
-You can choose any of the following features to implement. Your features should be well tested. The code you write will not be used.
-
-* When users reply (post comments) to tickets, they have the option to uplaod attachments. We'd like a way for users to also annotate those attachments with a description.
-* On larger features it can be difficult to see who is responsible for what. A check list of actionable items, including a deadline and person responsible, could solve this problem.
-
-Extra credit
-------------
-Upgrade to the newest (stable or edge) version of Rails
+License and copyright info
+--------------------------
+Robomo is Copyright (c) 2012 by PatientsLikeMe, Inc. and is released under the terms and conditions of the MIT license.  For more information, please see the LICENSE file.
