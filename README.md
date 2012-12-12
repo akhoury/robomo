@@ -5,7 +5,7 @@ Robomo is an application created by PatientsLikeMe used to track incoming produc
 
 Environment
 -----------
-Robomo runs on Ruby on Rails 1.9.3, and is database-agnostic.  (We've tested it with Postgres and SQLite 3, but it should also work with other adapters.)
+Robomo runs on Rails 3.1.3 and is developed using Ruby 1.9.3, and is database-agnostic.  (We've tested it with Postgres and SQLite 3, but it should also work with other adapters.)
 
 Test data
 ---------
