@@ -17,6 +17,14 @@ Logging in
 ----------
 In development and test modes, you can use a gmail account to authenticate.  Stage and production are set up by default to require a patientslikeme.com Google Apps account; to change this, alter the `config.google_auth_domain` setting in production.rb and stage.rb.
 
+Props
+----------
+* @semanticart
+* @hal678
+* @natbudin
+* @thegreatape
+
+
 License and copyright info
 --------------------------
 Robomo is Copyright (c) 2012 by PatientsLikeMe, Inc. and is released under the terms and conditions of the MIT license.  For more information, please see the LICENSE file.
