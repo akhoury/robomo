@@ -19,9 +19,10 @@ In development and test modes, you can use a gmail account to authenticate.  Sta
 
 Props
 ----------
-* @semanticart
+* @adarowski
 * @hal678
 * @natbudin
+* @semanticart
 * @thegreatape
 
 
