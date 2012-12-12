@@ -176,7 +176,8 @@ class Ticket < ActiveRecord::Base
   end
 
   def send_notification
-    BugsMailer.new_ticket(self).deliver
+    mail = BugsMailer.new_ticket(self)
+    mail.deliver if mail.to_addrs.present?
   end
 
   def set_time_to_first_reply
