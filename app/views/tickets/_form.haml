@@ -1,0 +1,45 @@
+= simple_form_for @ticket, :html => {:multipart => true} do |f|
+
+  = f.input :summary, :label => 'Summary <span>Short summary of the idea.</span>'
+  = f.input :description, :label => 'Description <span>More detailed summary of the idea.</span>'
+  %div.input.string
+    = f.label :tag_list, "Tags", :class => "string"
+    = f.autocomplete_field :tag_list, autocomplete_tag_name_tickets_path, :"data-delimiter" => ', '
+
+  - if current_user.admin?
+    %div.input.string
+      = f.label :sprint_tag, "Sprint", :class => "string"
+      = f.autocomplete_field :sprint_tag, autocomplete_ticket_sprint_tag_tickets_path 
+  #readiness
+    %label.radio
+      Readiness
+      %span How actionable is this?
+    %div.radio-options
+      = f.collection_radio:readiness, Ticket.readiness_states, :first, :last
+
+  #importance
+    %label.radio
+      Importance
+      %span How important is this?
+    %div.radio-options
+      = f.collection_radio :importance, Ticket.importances, :first, :last
+
+  #cc_new_users
+    = f.label :cc_users, "CC Users", :class => "string"
+    %ul#cced-users
+      - User.to_receive_all_emails.sort_by(&:name).each do |recipient|
+        %li.recip{:id => "cc-user-#{recipient.id}"}
+          = recipient.name
+      :javascript
+        userHash = #{json_user_hash}
+      %br
+      %input.autocomplete{:placeholder => "Enter a name"}
+
+  #assets
+    %label.attachment
+      Attach a File
+    #files
+      = f.fields_for :assets do |asset|
+        = asset.file_field :content
+
+  %p= f.button :submit, "Save Idea"

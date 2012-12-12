@@ -1,0 +1,7 @@
+
+$ ->
+  mo_says = <%= Rails.application.mascot_quotes.to_json %>
+  $("#mascot dd").css("display","none")
+  $("#mascot").hover ->
+    $('#mascot dd em').html(mo_says[Math.floor(Math.random() * mo_says.length)])
+    $('#mascot dd').toggle()

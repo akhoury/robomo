@@ -1,0 +1,9 @@
+- @ticket.unique_recipients.sort_by(&:name).each do |recipient|
+  %li.recip{:id => "cc-user-#{recipient.id}"}
+    = recipient.name
+    - if (cc = @ticket.cc_users.detect{|c| c.user_id == recipient.id}) && (recipient == current_user || current_user.admin?)
+      %a.remove-cc{:href => "#", :data => {'cc_user-id' => cc.id}} &times;
+
+- unless @ticket.unique_recipients.include?(current_user)
+  %li
+    %button#cc-me{:data => {'ticket-id' => @ticket.id, 'user-id' => current_user.id}} Notify Me of Replies

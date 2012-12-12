@@ -1,0 +1,6 @@
+:javascript
+  userHash = #{json_user_hash}
+
+.ui-widget
+  %label{:for => "cc-users"} Also CC:
+  %input#cc-users{:placeholder => "Enter a name", :data => {'ticket-id' => @ticket.id}}

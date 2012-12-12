@@ -1,0 +1,8 @@
+%p
+  #{@post.creator.name} has posted to the ticket #{@ticket.summary}:
+
+%p
+  #{@post.body}
+
+%p
+  You can view and reply to this ticket #{link_to("here", @thread_link)}

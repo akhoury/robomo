@@ -1,0 +1,10 @@
+%p
+  %strong Welcome to RoboMo,
+  that very special place on the internet where you can submit your ideas for how to make PatientsLikeMe take over the world.
+%a#sign-in{:href => '/auth/google'}
+  Sign in
+  %span 
+    with your 
+    - if Rails.application.config.respond_to?(:google_auth_domain)
+      = Rails.application.config.google_auth_domain
+    Google account

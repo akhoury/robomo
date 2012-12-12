@@ -1,0 +1,127 @@
+- is_home = params[:state].blank? && params[:scheduled].blank?
+%h2.welcome
+  Well hello there,
+  %span #{current_user.name}!
+
+%p#new-ticket
+  = link_to "Submit a New Idea", new_ticket_path
+
+- if params[:matching].present?
+  %h3#search-stripe
+    Search results for &ldquo;#{params[:matching]}&rdquo;
+    %a{:href => "/"} (Remove search filter)
+
+%nav#filters
+  %ul.tabs
+    %li{:class => (is_home ? 'yah' : nil)}= link_to("All (#{Ticket.matching(params[:matching]).count})", "/tickets?matching=#{params[:matching]}")
+    
+    = state_filter_link('submitted')
+    = state_filter_link('postponed')
+    = state_filter_link('scheduled_for_estimation')
+    = state_filter_link('estimated')
+    %li{:class => (params[:scheduled] == '1' ? 'yah' : nil)}
+      = link_to("Scheduled (#{Ticket.scheduled.count})", '/tickets?scheduled=1')
+    = state_filter_link('in_progress')
+    = state_filter_link('released')
+    = state_filter_link('closed')
+    
+    %li{:class => (params[:state] == 'search' ? 'yah' : nil)}= link_to("Search Tags", '/tickets?state=search')
+
+- if params[:state] == 'search'
+  = simple_form_for :tickets, :url => "/tickets/perform_search", :method => :get do
+    = label_tag "search_term", "Search Tags:"
+    = text_field :search, :term, :value => params[:search].try(:[], :term)
+    = select :search, :state, Ticket.states, :include_blank => 'All', :selected => params[:search].try(:[], :state)
+    = submit_tag "Search bugs"
+
+- if params[:tagged_with].present?
+  %h3 #{tag_cloud_word} ideas tagged with #{params[:tagged_with].to_sentence}
+- else
+  %h3 #{tag_cloud_word} ideas
+#tag-cloud
+  Filter by tags:
+  - tag_cloud(@tagged_tickets.tag_counts_on(:tags), %w(tag-small tag-medium tag-big tag-biggest)) do |tag, css_class| 
+    - unless params[:tagged_with].try(:member?, tag.name)
+      = link_to tag.name, tag_link_attributes(tag), :class => css_class
+
+- if @search_term
+  %h3 Searching for bugs tagged with '#{@search_term}'
+
+%p#display-count
+  Showing #{showing_ticket_numbers} of
+  %strong #{@tickets.total_count} #{params[:state].try(:titleize)}
+  ideas
+= paginate @tickets
+
+%table
+  %colgroup
+    %col{:style => "width: 60%;"}
+    %col
+    %col
+    %col
+    %col
+    %col
+    %col
+  %thead
+    %tr
+      %th{:data => {:sort => 'summary'}, :scope => "col"}
+        Idea
+        %span.icon
+      %th{:data => {:sort => 'tags_list'}, :scope => "col"}
+        Tags
+        %span.icon
+      %th{:data => {:sort => 'readiness'}, :scope => "col"}
+        Readiness
+        %span.icon
+      %th{:data => {:sort => 'importance'}, :scope => "col"}
+        Importance
+        %span.icon
+      %th{:data => {:sort => 'state'}, :scope => "col"}
+        Status
+        %span.icon
+      %th{:data => {:sort => 'creator'}, :scope => "col"}
+        Submitter
+        %span.icon
+      %th{:data => {:sort => 'sprint_tag'}, :scope => "col"}
+        Scheduled For
+        %span.icon
+      %th{:data => {:sort => 'last_update'}, :scope => "col"}
+        Updated
+        %span.icon
+      %th{:data => {:sort => 'created_at'}, :scope => "col"}
+        Submitted
+        %span.icon
+      - if @search_term
+        %th
+          Tags
+  %tbody
+    - @tickets.each do |ticket|
+      %tr
+        %td.issue
+          = link_to ticket.summary, ticket_path(ticket)
+          - if ticket.posts_count > 0
+            %em (#{pluralize(ticket.posts_count, "reply")})
+        %td
+          - ticket.tags.each do |t|
+            = link_to t.name, params.merge({:tagged_with => [t.name]})
+        %td.readiness{:alt => ticket.readiness_word}
+          = ticket.short_readiness_word
+        %td.importance{:alt => ticket.importance_word}
+          = ticket.short_importance_word
+        %td
+          = formatted_state(ticket.state)
+        %td
+          = ticket.creator.name
+        %td
+          = ticket.sprint_tag || "Unscheduled"
+        %td
+          = smart_time(ticket.last_update)
+          == by #{ ticket.last_modified_user.try(:name) }
+        %td
+          = smart_time(ticket.created_at)
+          %br
+        - if @search_term
+          %td
+            = ticket.sprint_tag
+
+= paginate @tickets

@@ -1,0 +1,196 @@
+// Global styles
+
+@import mixins
+
+body
+  font-family: 'Lora', serif
+  font-size: 16px
+  margin: 0
+  background-color: #EEE
+  line-height: 1.5
+
+a
+  &:link, &:visited, &:active
+    color: $link_color
+    text-decoration: none
+  &:hover
+    text-decoration: underline
+
+header, footer, nav, section
+  display: block
+
+img
+  border-width: 0
+
+abbr
+  border: none
+
+#content
+  +fluid_width
+  +box_shadow(#AAA, 0 0 20px)
+  +border_radius(0 0 20px 20px)
+  background-color: #fff
+  padding:
+    top: 1em
+    bottom: 240px
+  margin-bottom: 2em
+  position: relative
+  body.authentication &
+    text-align: center
+    p
+      width: 320px
+      margin: 3em auto
+      strong
+        display: block
+        font-size: 24px
+
+#mascot
+  position: absolute
+  right: 30px
+  bottom: -60px
+  margin: 0
+  width: 350px
+  height: 250px
+  background:
+    image: url(image-path("mascot.png"))
+    position: 100% 0
+    repeat: no-repeat
+    size: 700px 300px
+  &:hover
+    cursor: pointer
+    background-position: 0 0
+  dt
+    text-indent: -800em
+  dd
+    +border_radius(10px)
+    position: absolute
+    top: 30px
+    right: 350px
+    width: 400px
+    padding: 1em
+    background-color: $highlight
+    text-align: center
+    font-style: italic
+    span.arrow
+      position: absolute
+      bottom: 13px
+      right: -100px
+      border-top: 15px solid transparent
+      border-bottom: 15px solid transparent
+      border-left: 50px solid $highlight
+      border-right: 50px solid transparent
+
+header
+  background-color: #000
+  color: #fff
+  height: 46px
+  line-height: 1
+  position: relative
+  z-index: 1
+  h1
+    +fluid_width
+    font-size: 48px
+    a
+      float: left
+      &:link, &:visited, &:active
+        color: lighten($link_color, 10%)
+  nav
+    +fluid_width
+    color: #666
+    text-align: right
+    padding-top: 18px
+    font-size: 14px
+    #notifications
+      color: #fff
+      display: inline-block
+      a
+        padding:
+          left: 0.5em
+          right: 0
+    a
+      &:link, &:visited, &:active
+        color: lighten($link_color, 10%)
+    form
+      display: inline-block
+      padding: 0 1em
+      input[type=text]
+        border: 1px solid green
+      input[type=submit]
+        +button(12px, 2px 8px)
+        font-weight: normal
+
+footer
+  text-align: center
+  font-size: 12px
+  color: #666
+  margin-bottom: 4em
+  a
+    color: #333
+
+#sign-in
+  +button(48px, 2px 24px 8px 24px)
+  text-align: center
+  span
+    font-size: 14px
+    color: #666
+    font-weight: normal
+    font-style: italic
+    display: block
+
+.pagination
+  float: right
+  width: 50%
+  font-size: 12px
+  margin: 1em 0
+  text-align: right
+  span
+    display: inline-block
+  .page
+    a:link, a:visited, a:hover, a:active
+      border: 1px solid #DDD
+      padding: 1px 6px
+      display: inline-block
+    a:hover, a:active
+      text-decoration: none
+      background-color: $highlight
+  .current
+    font-weight: bold
+    padding: 1px 6px
+    border: 1px solid #aaa
+    background-color: $highlight
+  .prev, .next, .first, .last
+    a:link, a:visited, a:hover, a:active
+      color: #666
+
+#tag-cloud
+  .tag-biggest
+    font-size: 36px
+  .tag-big
+    font-size: 24px
+  .tag-medium
+    font-size: 12px
+  .tag-small
+    font-size: 8px
+
+input.ticket-linker
+  width: 300px
+
+.action-forms 
+  form
+    display: none
+
+#tooltip
+  border: 1px solid #999
+  padding: 20px
+  opacity: 0.9
+  z-index: 5
+  position: absolute
+  background: #ddd
+
+#inline-tag-edit
+  display: none
+
+.tag-admin
+  li
+    form
+      display: inline-block

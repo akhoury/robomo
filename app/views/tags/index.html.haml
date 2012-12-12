@@ -1,0 +1,7 @@
+%h1 LOOK AT ALL THE TAGS I HAVE
+%ul.tag-admin
+  - @tags.each do |tag|
+    %li 
+      = link_to tag.name, tag_link_attributes(tag).merge(:controller => :tickets)
+      (#{pluralize(Ticket.tagged_with(tag.name).count, 'ticket')}) | 
+      = button_to 'delete', {:action => :delete, :id => tag.id}, :method => :delete

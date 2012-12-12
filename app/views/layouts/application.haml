@@ -1,0 +1,38 @@
+!!!
+%html{:lang => 'en'}
+  %head
+    - if @ticket.present?
+      %title #{@ticket.summary} - RoboMo
+    - else
+      %title RoboMo: What's Coming Next?
+    %meta{:charset => 'UTF-8'}
+    %link{:href=>"/assets/application.css", :rel=>"stylesheet", :type=>"text/css"}
+    = javascript_include_tag "application", 'autocomplete-rails', 'tooltip'
+    %link{:href=>"http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic&v2", :rel=>"stylesheet", :type=>"text/css"}
+    = csrf_meta_tags
+  %body{:class => params[:controller]}
+    %header
+      %h1
+        =link_to "RoboMo", tickets_path
+      - if logged_in?
+        %nav
+          - unless current_user.admin?
+            #notifications
+              Notifications:
+              #{notification_toggle_link}
+          %form{:action => "/tickets"}
+            %input{:type => "search", :placeholder => "Search", :results => "5", :name => "matching", :value => params[:matching]}
+            %input{:type => "submit", :value => "search"}
+          %a{:href => '/tags'} Manage Tags
+          |
+          %a{:href => '/logout'} Logout
+    %section#content
+      #real-content
+        = yield
+      %dl#mascot
+        %dt RoboMo says:
+        %dd
+          %span.arrow
+          %em bleep bleep boop boop
+    %footer
+      I for one welcome our new product-managing overlords.

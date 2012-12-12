@@ -1,0 +1,8 @@
+%p
+  #{@ticket.creator.name} has created a new ticket: #{@ticket.summary}
+
+%p
+  #{@ticket.description}
+
+%p
+  You can view and reply to this ticket #{link_to("here", @thread_link)}

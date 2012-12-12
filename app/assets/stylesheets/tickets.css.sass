@@ -1,0 +1,352 @@
+// Place all the styles related to the tickets controller here.
+// They will automatically be included in application.css.
+// You can use Sass here: http://sass-lang.com/
+
+@import mixins
+
+#new-ticket
+  float: right
+  margin: 1.5em 0 3em
+  a
+    +button
+
+#search-stripe
+  +border_radius(5px)
+  +box_shadow(#ccc, 0 0 10px)
+  background-color: $highlight
+  clear: both
+  padding: 0.25em 0.5em
+  margin-bottom: 1em
+  h3
+    margin: 0
+  a
+    font-weight: normal
+    font-size: 12px
+
+ul#cced-users
+  +list_reset
+  display: inline
+  li
+    font-size: 14px
+    display: inline-block
+    padding: 1px 10px
+    margin:
+      right: 2px
+      bottom: 2px
+    &.recip
+      +border_radius(10px)
+      background-color: #eee
+      a
+        border-left: 1px solid #ddd
+        margin-left: 4px
+        padding-left: 6px
+    button
+      +button(14px, 2px 8px)
+
+.ui-widget
+  display: inline-block
+  margin-top: 2px
+
+h1
+  font-size: 24px
+  margin-bottom: 0.5em
+  strong
+    +border_radius(5px)
+    display: inline-block
+    color: #fff
+    background-color: #000
+    padding: 0.25em 0.5em
+    margin-right: 0.2em
+    text-align: center
+    font-weight: normal
+    line-height: 1.2
+  span
+    color: #666
+    font-style: italic
+    font-weight: normal
+
+.actions
+  +list_reset
+  li
+    display: inline-block
+    input[type=submit], a
+      +button(14px, 2px 8px)
+      line-height: 1.2
+
+@-moz-document url-prefix()
+  .actions li a
+    line-height: 1.5
+    padding:
+      left: 10px
+      right: 10px
+
+.meta-info
+  font-size: 12px
+  color: #333
+  padding: 0.5em
+  background-color: $highlight
+
+h2.welcome
+  float: left
+  font-weight: normal
+  font-size: 18px
+  font-style: italic
+  line-height: 1.2
+  margin-top: 1.5em
+  span
+    display: block
+    font-size: 32px
+    font-style: normal
+
+table
+  width: 100%
+  border-collapse: collapse
+  border-top: 1px solid #DDD
+  border-bottom: 1px solid #DDD
+  font-size: 12px
+  text-align: left
+  clear: both
+  tbody
+    span
+      +border_radius(5px)
+      display: inline-block
+      color: #333
+      background-color: #000
+      padding: 0.15em 0.5em
+      margin-right: 0.2em
+      text-align: center
+      font-weight: normal
+      line-height: 1.2
+    tr
+      &:nth-child(2n)
+        background-color: #F5F5F5
+    th, td
+      padding: 4px
+      border-top: 1px solid #DDD
+      vertical-align: middle
+    th, td.issue
+      font-weight: bold
+      font-size: 14px
+      padding-right: 20px
+      em
+        font-weight: normal
+        margin-left: 0.25em
+        color: #666
+        font-size: 12px
+  thead
+    tr
+      th
+        cursor: pointer
+        white-space: nowrap
+        background-color: #eee
+        padding: 2px 4px
+        span.icon
+          width: 13px
+          height: 9px
+          display: inline-block
+          background-image: url(/images/sort_bg.gif)
+          background-repeat: no-repeat
+          background-position: 0 0
+          cursor: pointer
+      .headerSortUp
+        span.icon
+          background-image: url(/images/sort_asc.gif)
+      .headerSortDown
+        span.icon
+          background-image: url(/images/sort_desc.gif)
+
+form.ticket, form.post
+  & > div
+    padding: 1em 0
+    &:nth-child(2n)
+      background-color: #F5F5F5
+  label
+    &.text, &.url, &.radio, &.attachment, &.string
+      display: inline-block
+      width: 40%
+      margin-right: 2%
+      vertical-align: top
+      text-align: right
+      font-size: 20px
+      span
+        font-size: 12px
+        color: #666
+        display: block
+      abbr[title=required]
+        position: absolute
+        left: -800em
+  input[type=text], input[type=url], textarea
+    +input_reset
+    width: 50%
+    vertical-align: top
+  textarea
+    height: 120px
+  .radio-options, #files, #cced-users
+    display: inline-block
+    width: 50%
+    vertical-align: top
+    input[type=file]
+      display: block
+    span
+      +border_radius(5px)
+      cursor: pointer
+      display: block
+      position: relative
+      margin-top: 0.5em
+      padding: 10px 10px 10px 30px
+      border: 1px solid #EEE
+      &:hover
+        background-color: $highlight
+        border: 1px solid #CCC
+      &:nth-child(1):hover
+        background-color: $idea
+      &:nth-child(2):hover
+        background-color: $started
+      &:nth-child(3):hover
+        background-color: $getting-there
+        color: #fff
+      &:nth-child(4):hover
+        background-color: $pretty-close
+        color: #fff
+      &:nth-child(5):hover
+        background-color: $punch-it
+        color: #fff
+      input[type=radio]
+        position: absolute
+        top: 13px
+        left: 10px
+  p
+    margin-top: 2em
+    text-align: center
+    input[type=submit]
+      +button
+
+#ticket
+  & > dl
+    padding: 1em 0
+    &:nth-child(2n)
+      background-color: #F5F5F5
+  dl
+    dt
+      display: inline-block
+      width: 40%
+      margin-right: 2%
+      vertical-align: top
+      text-align: right
+      font-size: 20px
+      span
+        font-size: 12px
+        color: #666
+        display: block
+    dd
+      display: inline-block
+      width: 50%
+      vertical-align: top
+      margin: 0
+      p
+        &:first-child
+          margin-top: 5px
+        &:last-child
+          margin-bottom: 0
+
+#filters
+  clear: both
+  border-bottom: 1px solid #DDD
+  ul.tabs
+    +list_reset
+    text-align: center
+    font-size: 12px
+    li
+      &.yah
+        a
+          @include box_gradient(#EEE, #FFF)
+          margin-bottom: -1px
+          padding-bottom: 6px
+          color: $link_color
+
+      display: inline-block
+      padding-right: 8px
+      a
+        @include border_radius(10px 10px 0 0)
+        @include box_gradient(#EEE, #EEE)
+        width: 100%
+        text-align: center
+        color: #666
+        display: inline-block
+        border:
+          width: 1px 1px 0 1px
+          color: #DDD
+          style: solid
+        padding: 5px
+        &:hover
+          text-decoration: none
+
+.assets
+  +list_reset
+  li
+    +border_radius(4px)
+    display: inline-block
+    vertical-align: top
+    padding: 0.5em
+    border: 1px solid #EEE
+    background-color: #fff
+    line-height: 1
+
+dl.post, dl.state-change
+  border-bottom: 1px solid #CCC
+  padding: 1em 0
+  margin: 0
+
+dl.post
+  dt
+    font-style: italic
+    color: #999
+  dd
+    margin: 0
+    padding: 0
+    p
+      &:first-child
+        margin-top: 0
+      &:last-child
+        margin-bottom: 0
+
+dl.state-change
+  background-color: #F5F5F5
+  dt
+    display: none
+  dd
+    margin: 0 0 0 2em
+    span.state
+      display: inline-block
+      padding: 0 5px
+      font-weight: bold
+      color: #FFF
+      background-color: #333
+      &.estimated
+        background-color: #FA0
+      &.in_progress
+        background-color: #5C0
+      &.released
+        background-color: #00F
+    time
+      font-style: italic
+      color: #999
+
+#sprint-assignment
+  min-height: 40px
+  font-size: larger
+  padding: 10px
+  padding-left: 25px
+  margin: 5px
+
+#response-time, #display-count
+  float: left
+  width: 50%
+  color: #999
+  font-size: 12px
+  strong
+    color: #000
+
+#posts
+  dl:first-child
+    padding-top: 0

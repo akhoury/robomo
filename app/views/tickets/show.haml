@@ -1,0 +1,154 @@
+%section#ticket
+
+  %h1
+    %strong= @ticket.id
+    #{@ticket.summary}
+    %span (#{formatted_state(@ticket.state)})
+
+
+  %ul.actions
+    - if current_user.can_edit?(@ticket)
+      %li= link_to("Edit Idea", edit_ticket_path(@ticket))
+    %li= ticket_submitted_link
+    %li= ticket_postpone_link
+    %li= ticket_begin_work_link
+    %li= ticket_release_link
+    %li= ticket_close_link
+    - if current_user.admin? 
+      %li= ticket_schedule_for_estimation_link
+      %li= ticket_mark_estimated_link
+      %li= link_to("Delete Idea", delete_ticket_path(@ticket))
+    %li= link_to("Mark As Duplicate", '#', :class => 'ticket-link-toggle', 'data-form' => 'mark_as_duplicate')
+    %li= link_to("Mark As Exclusive With Another Idea", '#', :class => 'ticket-link-toggle', 'data-form' => 'mark_as_exclusive_with')
+    %li= link_to("Mark As Part Of Another Idea", '#', :class => 'ticket-link-toggle', 'data-form' => 'ticket_links')
+  .action-forms
+    = form_tag :action => :mark_as_duplicate, :id => @ticket.id do |f|
+      = autocomplete_field_tag '', '', autocomplete_tickets_tickets_path, :placeholder => "Search by idea id number or title", :class => 'ticket-linker'
+      = hidden_field_tag :duplicate_id
+      = submit_tag
+    = form_tag :action => :mark_as_exclusive_with, :id => @ticket.id do |f|
+      = autocomplete_field_tag '', '', autocomplete_tickets_tickets_path, :placeholder => "Search by idea id number or title", :class => 'ticket-linker'
+      = hidden_field_tag :exclusive_with_id
+      = submit_tag
+    = form_tag :controller => :ticket_links, :action => :create, :id => @ticket.id do |f|
+      = autocomplete_field_tag '', '', autocomplete_tickets_tickets_path, :placeholder => "Search by idea id number or title", :class => 'ticket-linker'
+      = hidden_field_tag "ticket_link[linked_ticket_id]"
+      = hidden_field_tag "ticket_link[ticket_id]", @ticket.id
+      = submit_tag
+
+  %p.meta-info
+    Filed by
+    %strong= @ticket.creator.name
+    = smart_time(@ticket.created_at)
+
+  %dl
+    %dt Summary
+    %dd= simple_format(auto_link(@ticket.summary))
+  %dl
+    %dt Description
+    %dd= simple_format(auto_link(@ticket.description))
+  - if @ticket.readiness
+    %dl
+      %dt Readiness
+      %dd= @ticket.readiness_word
+  - if @ticket.importance
+    %dl
+      %dt Importance
+      %dd= @ticket.importance_word
+  %dl
+    %dt Tags
+    %dd
+      = @ticket.tag_list
+      = button_tag "Edit", :class => 'edit-tags'
+
+    = simple_form_for @ticket, :html => {:id=> 'inline-tag-edit'} do |f|
+      %div.input.string
+        = f.label :tag_list, "Tags", :class => "string"
+        = f.autocomplete_field :tag_list, autocomplete_tag_name_tickets_path, :"data-delimiter" => ', '
+        = f.button :submit, "Save Tags"
+
+  %dl
+    %dt Attachments
+    %dd
+      - if @ticket.assets.any?
+        %ul.assets
+          - @ticket.assets.each do |asset|
+            %li= asset_link(asset, 'data-lightview-group' => "ticket-#{@ticket.id}")
+  - if @ticket.duplicate_tickets.any? 
+    %dl
+      %dt Duplicates
+      %dd
+        %ul.duplicates
+          - @ticket.duplicate_tickets.each do |dup|
+            %li 
+              = link_to "#{dup.id} - #{dup.summary}", ticket_path(dup)
+  - if @ticket.exclusive_with_tickets.any? 
+    %dl
+      %dt Exclusive With
+      %dd
+        %ul.exclusive_with
+          - @ticket.exclusive_with_tickets.each do |idea|
+            %li 
+              = link_to "#{idea.id} - #{idea.summary}", ticket_path(idea)
+  - if @ticket.linked_tickets.any?
+    %dl
+      %dt Linked to Other Ideas
+      %dd
+        %ul.linked_tickets
+        - @ticket.linked_tickets.each do |t|
+          %li 
+            = link_to "#{t.id} - #{t.summary}", ticket_path(t)
+            (
+            = link_to("remove", ticket_link_path(t['ticket_link_id']), :method => 'delete')
+            )
+%section#posts
+  - if current_user.admin?
+    #sprint-assignment
+      = simple_form_for @ticket do
+        Schedule to sprint:
+        = text_field 'ticket', 'sprint_tag'
+        = submit_tag "Assign to sprint", :id => 'submit-sprint-tag'
+
+  - if @ticket.events.any?
+    %h2 Responses
+    #responses
+      - @ticket.events.each do |event|
+        - if event.instance_of?(Post)
+          %dl.post
+            %dt Response by #{event.creator.name} #{smart_time(event.created_at)}
+            %dd= auto_link(simple_format(event.body))
+            - if event.assets.any?
+              %dd
+                %ul.assets
+                  - event.assets.each do |asset|
+                    %li= asset_link(asset, 'data-lightview-group' => "post-#{event.id}")
+        - elsif event.instance_of?(StateChange)
+          %dl.state-change
+            %dt
+              Status Change
+            %dd
+              #{event.user.name} changed the status of this ticket to
+              %span.state{:class => event.state}
+                #{formatted_state(event.state)}
+              #{smart_time(event.changed_at)}
+
+
+  %h2#cced-header CC&rsquo;ed Users
+  %ul#cced-users
+    = render :partial => 'cced_users'
+
+  = render :partial => 'cc_form'
+
+  %h2 Post a Response
+  = simple_form_for [@ticket, @post || @ticket.posts.build] do |f|
+    = f.input :body, :label => "Your Response"
+
+    #assets
+      %label.attachment
+        Attach a File
+      #files
+        = f.fields_for :assets do |asset|
+          = asset.file_field :content
+
+    %p= f.button :submit, :value => 'Post Response'
+
