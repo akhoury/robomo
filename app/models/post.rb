@@ -12,7 +12,7 @@ class Post < ActiveRecord::Base
   after_save :touch_ticket
 
   def send_notification
-    mail BugsMailer.thread_update(self)
+    mail = BugsMailer.thread_update(self)
     mail.deliver if mail.to_addrs.present?
   end
 
