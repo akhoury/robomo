@@ -20,7 +20,7 @@ TODO
 
 You can choose any of the following features to implement. Your features should be well tested. The code you write will not be used.
 
-* When users reply (post comments) to tickets, they have the option to uplaod attachments. We'd like a way for users to also annotate those attachments with a description.
+* When users reply (post comments) to tickets, they have the option to upload attachments. We'd like a way for users to also annotate those attachments with a description.
 * On larger features it can be difficult to see who is responsible for what. A check list of actionable items, including a deadline and person responsible, could solve this problem.
 
 Extra credit
