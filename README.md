@@ -1,7 +1,7 @@
 Robomo
 ======
 
-Robomo is an application created by PatientsLikeMe used to track incoming product requests. Users can request a feature, then stakeholders can have a discussion, upload attachments, track the progress of the feature, etc.
+Robomo is an open source (MIT license) application created by PatientsLikeMe used to track incoming product requests. Users can request a feature, then stakeholders can have a discussion, upload attachments, track the progress of the feature, etc.
 
 Environment
 -----------
@@ -18,7 +18,7 @@ You can use a gmail account to authenticate.
 TODO
 ----
 
-You can choose any of the following features to implement. Your features should be well tested. The code you write will not be used.
+You can choose any of the following features to implement. Your features should be well tested.
 
 * When users reply (post comments) to tickets, they have the option to upload attachments. We'd like a way for users to also annotate those attachments with a description.
 * On larger features it can be difficult to see who is responsible for what. A check list of actionable items, including a deadline and person responsible, could solve this problem.
