@@ -27,7 +27,7 @@ RoboMo::Application.configure do
   # Do not compress assets
   config.assets.compress = false
 
-  config.google_auth_domain = "patientslikeme.com"
+  # config.google_auth_domain = "patientslikeme.com"
 
   APPLICATION_URL = "localhost:3000"
 end
