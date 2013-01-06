@@ -121,7 +121,7 @@
               %dd
                 %ul.assets
                   - event.assets.each do |asset|
-                    %li= asset_link(asset, 'data-lightview-group' => "post-#{event.id}")
+                    %li= asset_link(asset, 'data-lightview-group' => "post-#{event.id}", 'data-lightview-caption' => asset.caption)
         - elsif event.instance_of?(StateChange)
           %dl.state-change
             %dt
@@ -145,10 +145,12 @@
 
     #assets
       %label.attachment
-        Attach a File
+        Attach File(s)
       #files
         = f.fields_for :assets do |asset|
+          = asset.text_field :caption, :placeholder => "Attachment caption"
           = asset.file_field :content
+ 
 
     %p= f.button :submit, :value => 'Post Response'
 

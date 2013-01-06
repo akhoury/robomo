@@ -3,11 +3,18 @@ addUploadListener = () ->
     container = $("#files")
     num = this.id.match(/\d+/)[0]
     num = parseInt(num) + 1
-    newId = this.id.replace(/\d+/, num)
-    newName = this.name.replace(/\d+/, num)
-    if ($("#" + newId).length == 0)
-      elem = $("<input />").attr('id', newId).attr('name', newName).attr('type', 'file')
-      container.append(elem)
+    newFileElemId = this.id.replace(/\d+/, num)
+    newFileElemName = this.name.replace(/\d+/, num)
+    # new associated text_field element id and name
+    newTextElemId = newFileElemId.replace("_content", "_caption")
+    newTextElemName = newFileElemName.replace("[content]", "[caption]")
+    # original placeholder text
+    placeholderText = $($("#files input[type='text']")[0]).attr('placeholder')
+    if ($("#" + newFileElemId).length == 0 && $("#" + newTextElemId).length == 0)
+      textElem = $("<input />").attr('id', newTextElemId).attr('name', newTextElemName).attr('type', 'text').attr('placeholder', placeholderText)
+      fileElem = $("<input />").attr('id', newFileElemId).attr('name', newFileElemName).attr('type', 'file')
+      container.append(textElem)
+      container.append(fileElem)
       addUploadListener()
 
 

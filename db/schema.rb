@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121211192042) do
+ActiveRecord::Schema.define(:version => 20130106143459) do
 
   create_table "assets", :force => true do |t|
     t.integer  "ticket_id"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(:version => 20121211192042) do
     t.integer  "content_file_size"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "caption"
   end
 
   create_table "cc_users", :force => true do |t|
