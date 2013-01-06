@@ -10,6 +10,8 @@ class Post < ActiveRecord::Base
   after_create :send_notification
 
   after_save :touch_ticket
+  
+  before_validation :check_assets
 
   def send_notification
     mail = BugsMailer.thread_update(self)
@@ -19,5 +21,17 @@ class Post < ActiveRecord::Base
   def touch_ticket
     ticket.update_attributes(:last_post_at => Time.now, :last_modified_user => creator)
     ticket.set_time_to_first_reply if ticket.time_to_first_reply_in_seconds.blank?
+  end
+  
+  def check_assets
+    self.assets.each do |asset|
+      unless !asset.content_file_name.nil?
+        if asset.new_record?
+          self.assets.delete(asset)
+        else
+          asset.destroy
+        end
+      end
+    end
   end
 end
